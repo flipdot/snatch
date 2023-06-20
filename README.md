@@ -13,8 +13,10 @@ It only saves the license plate temporarily and in a hashed form.
 
 ```
 docker-compose up --build -d
-# visit http://localhost
 ```
+
+Visit https://localhost / https://localhost/api/docs
+
 
 ## Development
 
