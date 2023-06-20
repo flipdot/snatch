@@ -1,0 +1,43 @@
+services:
+  api:
+    build:
+      context: ./backend
+    volumes:
+      - .:/code
+    environment:
+      - REDIS_URL=redis://db:6379/0
+    depends_on:
+      - db
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - api
+  db:
+    image: redis:7-alpine
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  caddy:
+    image: caddy:2.4.5-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./Caddyfile:/etc/caddy/Caddyfile"
+      - "caddy-data:/data"
+      - "static_files:/mnt/static"
+#      - "media_files:/mnt/media"
+    depends_on:
+      - api
+      - frontend
+volumes:
+  redis-data:
+  caddy-data:
+  static_files:
+#  media_files:

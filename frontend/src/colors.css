@@ -1,0 +1,5 @@
+#root {
+    --flipdot-yellow: #f5c600;
+
+    --primary-color: var(--flipdot-yellow);
+}

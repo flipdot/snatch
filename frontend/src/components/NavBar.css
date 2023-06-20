@@ -1,0 +1,39 @@
+#main-navbar, #main-footer {
+    /*background: #1a1a1a;*/
+    color: #666666;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+#main-navbar {
+    background-color: #1a1a1a;
+}
+
+#main-navbar a, #main-footer a {
+    color: #a6a6a6;
+}
+
+#main-navbar > * {
+    flex: 0 1 auto;
+    width: 8rem;
+    border-right: 1px solid #242424;
+}
+
+#main-footer > * {
+    flex: 0 1 auto;
+    border: none;
+}
+
+#main-navbar {
+    justify-content: flex-start;
+    height: 4rem;
+}
+
+#main-footer {
+    justify-content: center;
+    height: 4rem;
+    font-size: smaller;
+}

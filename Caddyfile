@@ -1,0 +1,19 @@
+localhost, snatch.flipdot.org {
+  handle_path /static/* {
+     root * /mnt/static
+     file_server
+  }
+
+  handle_path /media/* {
+     root * /mnt/media
+     file_server
+  }
+
+  handle_path /api/* {
+    reverse_proxy api:8000
+  }
+
+  handle {
+    reverse_proxy frontend
+  }
+}
