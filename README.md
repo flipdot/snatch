@@ -9,10 +9,12 @@ It allows to record when a car passes by a certain location.
 
 It only saves the license plate temporarily and in a hashed form.
 
-## Setup
+## Usage
+
+No need to check out the repository. You only need to copy the `compose.yaml` file and run:
 
 ```
-docker-compose up --build -d
+docker compose up -d
 ```
 
 Visit https://localhost / https://localhost/api/docs
