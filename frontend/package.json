@@ -11,7 +11,8 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "format": "rome format --write src",
-    "format-ci": "rome ci src"
+    "format-ci": "rome ci src",
+    "test": "tsc --noEmit"
   },
   "dependencies": {
     "@yudiel/react-qr-scanner": "^1.1.9",
