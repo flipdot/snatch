@@ -17,7 +17,7 @@ function JoinRoom() {
 			<h2>Enter {navigator.mediaDevices && "or scan"} room name</h2>
 			<form
 				style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-				onSubmit={event => {
+				onSubmit={(event) => {
 					event.preventDefault();
 					if (!roomId) return;
 					navigate(`/room/${roomId}`);
@@ -28,7 +28,8 @@ function JoinRoom() {
 					onChange={(event) => setRoomId(event.target.value)}
 					type="text"
 					placeholder="Room name"
-					autoFocus={true}
+					// rome-ignore lint/a11y/noAutofocus: Only one input field, no text before it that the user might want to read
+					autoFocus
 				/>
 				<button
 					onClick={() => setModalIsOpen(true)}
@@ -42,11 +43,7 @@ function JoinRoom() {
 					📷
 				</button>
 			</form>
-			<button
-				style={{ marginTop: "1rem" }}
-				disabled={!roomId}
-				type="submit"
-			>
+			<button style={{ marginTop: "1rem" }} disabled={!roomId} type="submit">
 				Join
 			</button>
 			<Modal

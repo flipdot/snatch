@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 			<Routes>
 				<Route path="/" element={<NavBar />}>
 					<Route path="" element={<Index />} />
-					<Route path="/join" element={<JoinRoom />}></Route>
+					<Route path="/join" element={<JoinRoom />} />
 					<Route path="room/:roomName" element={<Room />} />
 				</Route>
 			</Routes>

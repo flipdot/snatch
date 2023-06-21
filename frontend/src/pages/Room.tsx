@@ -17,7 +17,9 @@ export default function Room() {
 		<>
 			<h1>Room</h1>
 			<p className="room-name">{roomName}</p>
-			<button onClick={() => setModalIsOpen(true)}>Share room</button>
+			<button onClick={() => setModalIsOpen(true)} type="button">
+				Share room
+			</button>
 			<Modal
 				isOpen={modalIsOpen}
 				onRequestClose={() => setModalIsOpen(false)}
@@ -36,7 +38,8 @@ export default function Room() {
 					<button
 						onClick={() => setModalIsOpen(false)}
 						className="closeModal"
-					></button>
+						type="button"
+					/>
 				</div>
 				<QRCode
 					value={roomUrl}
@@ -68,6 +71,7 @@ export default function Room() {
 							width: "7em",
 							display: navigator.clipboard ? "block" : "none",
 						}}
+						type="button"
 					>
 						{buttonText}
 					</button>
