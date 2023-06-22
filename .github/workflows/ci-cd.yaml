@@ -97,7 +97,7 @@ jobs:
     needs: [ build-images ]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-
+    environment: snatch.flipdot.org
     steps:
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.5.0
