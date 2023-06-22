@@ -13,6 +13,10 @@
     "format-ci": "rome ci src",
     "test": "tsc --noEmit"
   },
+  "pre-commit": [
+      "format",
+      "format-ci"
+  ],
   "dependencies": {
     "@yudiel/react-qr-scanner": "^1.1.9",
     "react": "^18.2.0",
@@ -28,6 +32,7 @@
     "@types/react-modal": "^3.16.0",
     "@types/uuid": "^9.0.2",
     "@vitejs/plugin-react-swc": "^3.0.0",
+    "pre-commit": "^1.2.2",
     "rome": "^12.1.3",
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
