@@ -16,36 +16,37 @@ function JoinRoom() {
 			<h1>Join room</h1>
 			<h2>Enter {navigator.mediaDevices && "or scan"} room name</h2>
 			<form
-				style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
 				onSubmit={(event) => {
 					event.preventDefault();
 					if (!roomId) return;
 					navigate(`/room/${roomId}`);
 				}}
 			>
-				<input
-					value={roomId}
-					onChange={(event) => setRoomId(event.target.value)}
-					type="text"
-					placeholder="Room name"
-					// rome-ignore lint/a11y/noAutofocus: Only one input field, no text before it that the user might want to read
-					autoFocus
-				/>
-				<button
-					onClick={() => setModalIsOpen(true)}
-					style={{
-						borderTopLeftRadius: 0,
-						borderBottomLeftRadius: 0,
-						display: navigator.mediaDevices ? "block" : "none",
-					}}
-					type="button"
-				>
-					📷
-				</button>
-			</form>
-			<button style={{ marginTop: "1rem" }} disabled={!roomId} type="submit">
-				Join
-			</button>
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    <input
+                        value={roomId}
+                        onChange={(event) => setRoomId(event.target.value)}
+                        type="text"
+                        placeholder="Room name"
+                        // rome-ignore lint/a11y/noAutofocus: Only one input field, no text before it that the user might want to read
+                        autoFocus
+                    />
+                    <button
+                        onClick={() => setModalIsOpen(true)}
+                        style={{
+                            borderTopLeftRadius: 0,
+                            borderBottomLeftRadius: 0,
+                            display: navigator.mediaDevices ? "block" : "none",
+                        }}
+                        type="button"
+                    >
+                        📷
+                    </button>
+                </div>
+                <button style={{marginTop: "1rem"}} disabled={!roomId} type="submit">
+                    Join
+                </button>
+            </form>
 			<Modal
 				isOpen={modalIsOpen}
 				onRequestClose={() => setModalIsOpen(false)}
