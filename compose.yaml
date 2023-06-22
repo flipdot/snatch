@@ -27,7 +27,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "./Caddyfile:/etc/caddy/Caddyfile"
+      - "./infrastructure/Caddyfile:/etc/caddy/Caddyfile"
       - "caddy-data:/data"
       - "static_files:/mnt/static"
 #      - "media_files:/mnt/media"
