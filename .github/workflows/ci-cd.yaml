@@ -108,6 +108,6 @@ jobs:
       - name: Add host fingerprint to known_hosts
         run: echo "${{ vars.SSH_HOST_FINGERPRINT }}" >> ~/.ssh/known_hosts
       - name: Copy compose.yaml to host
-        run: scp docker-compose.yaml ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}:~/snatch/docker-compose.yaml
+        run: scp compose.yaml ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}:~/snatch/docker-compose.yaml
       - name: Reload docker compose
-        run: ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} 'cd ~/snatch && docker-compose pull && docker-compose up -d'
+        run: ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} 'cd ~/snatch && docker compose pull && docker compose up -d'
