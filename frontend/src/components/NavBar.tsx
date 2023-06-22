@@ -13,6 +13,9 @@ function NavBar() {
 			</div>
 			<footer id="main-footer">
 				<span>Made with ⛏ by flipdot e.V.</span>
+				<Link to="https://github.com/flipdot/snatch/" target="_blank">
+					GitHub
+				</Link>
 				<Link to="https://flipdot.org/impressum/" target="_blank">
 					Legal
 				</Link>

@@ -5,11 +5,13 @@
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 1rem;
 }
 
 #main-navbar {
     background-color: #1a1a1a;
+    gap: 1rem;
+    justify-content: flex-start;
+    height: 4rem;
 }
 
 #main-navbar a, #main-footer a {
@@ -25,15 +27,25 @@
 #main-footer > * {
     flex: 0 1 auto;
     border: none;
+    padding: 0 1rem;
 }
 
-#main-navbar {
-    justify-content: flex-start;
-    height: 4rem;
+#main-footer > *:first-child {
+    margin-right: auto;
 }
 
 #main-footer {
-    justify-content: center;
-    height: 4rem;
+    justify-content: flex-start;
+    height: 2rem;
     font-size: smaller;
+}
+
+#main-footer {
+    padding-bottom: 0.5rem;
+}
+
+@media (prefers-color-scheme: light) {
+    #main-footer {
+        color: #a6a6a6;
+    }
 }
