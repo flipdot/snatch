@@ -106,8 +106,8 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Add host fingerprint to known_hosts
-        run: echo "${{ env.SSH_HOST_FINGERPRINT }}" >> ~/.ssh/known_hosts
+        run: echo "${{ vars.SSH_HOST_FINGERPRINT }}" >> ~/.ssh/known_hosts
       - name: Copy compose.yaml to host
-        run: scp docker-compose.yaml ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:~/snatch/docker-compose.yaml
+        run: scp docker-compose.yaml ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}:~/snatch/docker-compose.yaml
       - name: Reload docker compose
-        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} 'cd ~/snatch && docker-compose pull && docker-compose up -d'
+        run: ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} 'cd ~/snatch && docker-compose pull && docker-compose up -d'
