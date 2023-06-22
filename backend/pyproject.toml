@@ -8,7 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-fastapi = "^0.97.0"
+fastapi = "^0.98.0"
 redis = "^4.5.5"
 uvicorn = "^0.22.0"
 
