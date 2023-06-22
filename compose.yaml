@@ -22,7 +22,7 @@ services:
       timeout: 5s
       retries: 5
   caddy:
-    image: caddy:2.4.5-alpine
+    image: caddy:2.6.4-alpine
     ports:
       - "80:80"
       - "443:443"
