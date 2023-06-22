@@ -97,15 +97,17 @@ jobs:
     needs: [ build-images ]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-    environment: snatch.flipdot.org
+    environment:
+      name: production
+      url: https://snatch.flipdot.org
     steps:
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Add host fingerprint to known_hosts
-        run: echo "${{ secrets.SSH_HOST_FINGERPRINT }}" >> ~/.ssh/known_hosts
+        run: echo "${{ env.SSH_HOST_FINGERPRINT }}" >> ~/.ssh/known_hosts
       - name: Copy compose.yaml to host
-        run: scp docker-compose.yaml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/snatch/docker-compose.yaml
+        run: scp docker-compose.yaml ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:~/snatch/docker-compose.yaml
       - name: Reload docker compose
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/snatch && docker-compose pull && docker-compose up -d'
+        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} 'cd ~/snatch && docker-compose pull && docker-compose up -d'
