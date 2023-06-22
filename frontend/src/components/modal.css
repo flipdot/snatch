@@ -8,6 +8,7 @@
     transform: translate(-50%, -50%);
     padding: 2em;
     background-color: #1a1a1a;
+    max-width: 640px;
 }
 
 .modal h2 {
