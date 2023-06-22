@@ -92,3 +92,20 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64
           build-args: RELEASE=${{ steps.version.outputs.release }}
+  deploy:
+    name: Deploy
+    needs: [ build-images ]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add host fingerprint to known_hosts
+        run: echo "${{ secrets.SSH_HOST_FINGERPRINT }}" >> ~/.ssh/known_hosts
+      - name: Copy compose.yaml to host
+        run: scp docker-compose.yaml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/snatch/docker-compose.yaml
+      - name: Reload docker compose
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/snatch && docker-compose pull && docker-compose up -d'
