@@ -17,4 +17,3 @@ ENTRYPOINT ["poetry", "run"]
 
 CMD ["uvicorn", "--host", "0.0.0.0", "--root-path", "/api", "main:app"]
 EXPOSE 8000
-
