@@ -16,6 +16,8 @@ def list_locations(room: str) -> set[str]:
 
 @router.put("/{location}", status_code=201)
 def create_location(room: str, location: str) -> str:
+    if ":" in location:
+        raise HTTPException(status_code=400, detail="Location cannot contain ':'")
     if db.sadd(f"room:{room}:locations", location) == 0:
         raise HTTPException(status_code=409, detail="Location already exists")
     return location
@@ -27,5 +29,7 @@ def create_location(room: str, location: str) -> str:
     responses={404: {"description": "Location not found"}},
 )
 def delete_location(room: str, location: str) -> None:
+    if ":" in location:
+        raise HTTPException(status_code=400, detail="Location cannot contain ':'")
     if db.srem(f"room:{room}:locations", location) == 0:
         raise HTTPException(status_code=404, detail="Location not found")

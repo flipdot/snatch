@@ -25,16 +25,19 @@ class NewRecord(BaseModel):
 def add_record(room_name: str, record: NewRecord) -> str:
     if not db.sismember(f"room:{room_name}:locations", record.location):
         raise HTTPException(status_code=404, detail="Location not found")
+    timestamp = datetime.now().isoformat()
     sanitized_plate = record.plate.replace(" ", "").upper()
     # Salt the plate number with the room name.
     # This way, data from different rooms will not be comparable, increasing privacy.
     plate_hash = sha256(
         f"{room_name}:{sanitized_plate}".encode(),
     ).hexdigest()
-    timestamp = datetime.now().isoformat()
-    key = f"room:{room_name}:records:{plate_hash}"
+    plates_key = f"room:{room_name}:plates"
+    records_key = f"room:{room_name}:records:{plate_hash}"
+
+    db.sadd(plates_key, plate_hash)
     db.lpush(
-        key,
+        records_key,
         json.dumps(
             {
                 "location": record.location,
@@ -42,5 +45,7 @@ def add_record(room_name: str, record: NewRecord) -> str:
             }
         ),
     )
-    db.expire(key, 60 * 60 * 24 * 3)  # 3 days
+    # Automatically delete records after 3 days.
+    db.expire(records_key, 60 * 60 * 24 * 3)
+    db.expire(plates_key, 60 * 60 * 24 * 3)
     return timestamp
