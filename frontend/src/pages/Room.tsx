@@ -70,7 +70,6 @@ export default function Room() {
 					});
 				}}
 			/>
-			<hr />
 			<ShareRoomButton roomName={roomName} />
 		</>
 	);

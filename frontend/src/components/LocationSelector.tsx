@@ -49,7 +49,9 @@ export default function LocationSelector({
 			<form
 				onSubmit={(event) => {
 					event.preventDefault();
-					onAddLocation(newLocation);
+					onAddLocation(newLocation)
+					// TODO: if onAddLocation is successful, clear the input
+					// 	setNewLocation("");
 				}}
 			>
 				<input
@@ -62,7 +64,7 @@ export default function LocationSelector({
 					onSubmit={() => console.log("yo")}
 				/>
 				<button type="submit" disabled={!newLocation}>
-					Save
+					Add
 				</button>
 			</form>
 		</>
