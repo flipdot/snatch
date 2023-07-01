@@ -1,0 +1,40 @@
+ul.location-selector {
+    padding: 0;
+}
+
+ul.location-selector > li {
+    margin: 0.5em 0.5em;
+    border-radius: 8px;
+    border: 1px solid #a6a6a6;
+    padding: 0.3em 0.6em;
+    list-style: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    background: #1a1a1a;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+    -webkit-tap-highlight-color: transparent;
+}
+
+ul.location-selector > li:hover {
+    border-color: var(--primary-color);
+}
+
+ul.location-selector > li.selected {
+    background: var(--primary-color);
+    color: #1a1a1a;
+}
+
+ul.location-selector > li.selected:hover {
+    border-color: #a6a6a6;
+}
+
+@media (prefers-color-scheme: light) {
+    ul.location-selector > li {
+        background: #f9f9f9;
+    }
+
+    ul.location-selector > li.selected {
+        background: var(--primary-color);
+    }
+}

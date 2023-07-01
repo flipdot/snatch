@@ -40,8 +40,6 @@ function JoinRoom() {
 					<button
 						onClick={() => setModalIsOpen(true)}
 						style={{
-							borderTopLeftRadius: 0,
-							borderBottomLeftRadius: 0,
 							display: navigator.mediaDevices ? "block" : "none",
 						}}
 						type="button"

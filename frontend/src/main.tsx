@@ -8,9 +8,11 @@ import JoinRoom from "./pages/JoinRoom";
 import Room from "./pages/Room";
 import NavBar from "./components/NavBar";
 import Modal from "react-modal";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
+		<Toaster />
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<NavBar />}>

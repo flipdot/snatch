@@ -38,6 +38,12 @@ button {
 
 button, input {
     transition: border-color 0.25s, box-shadow 0.25s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+input + button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 button:hover, input:hover {

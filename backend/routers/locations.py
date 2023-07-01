@@ -3,24 +3,22 @@ from fastapi import APIRouter, HTTPException
 from db import db
 
 router = APIRouter(
-    prefix="/{room}/locations",
+    prefix="/room/{room}/locations",
     tags=["locations"],
 )
 
 
 @router.get("/")
-def list_locations(room: str) -> set[str]:
-    locations = db.smembers(f"{room}:locations")
-    return locations
+def list_locations(room: str) -> list[str]:
+    return sorted(db.smembers(f"room:{room}:locations"))
 
 
 @router.put("/{location}", status_code=201)
-def create_location(room: str, location: str) -> str:
+def create_location(room: str, location: str) -> list[str]:
     if ":" in location:
         raise HTTPException(status_code=400, detail="Location cannot contain ':'")
-    if db.sadd(f"room:{room}:locations", location) == 0:
-        raise HTTPException(status_code=409, detail="Location already exists")
-    return location
+    db.sadd(f"room:{room}:locations", location)
+    return list_locations(room)
 
 
 @router.delete(

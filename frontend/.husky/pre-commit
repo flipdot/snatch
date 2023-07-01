@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd frontend || exit
+cd frontend || exit 1
 npm run format-ci || (npm run format && exit 1)

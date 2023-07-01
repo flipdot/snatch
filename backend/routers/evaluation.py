@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from db import db
 
 router = APIRouter(
-    prefix="/{room_name}/evaluation",
+    prefix="/room/{room}/evaluation",
     tags=["evaluation"],
 )
 
@@ -64,14 +64,14 @@ def get_index_from_percentile(percentile: float, sorted_list: list[any]) -> int:
 
 
 @router.get("/")
-def get_evaluation(room_name: str) -> list[Analysis]:
+def get_evaluation(room: str) -> list[Analysis]:
     """
     Returns a histogram of the average time spent between each pair of locations.
     """
-    plates = db.smembers(f"room:{room_name}:plates")
+    plates = db.smembers(f"room:{room}:plates")
     durations_per_segment = {}
     for car_id, plate_hash in enumerate(plates):
-        records_key = f"room:{room_name}:records:{plate_hash}"
+        records_key = f"room:{room}:records:{plate_hash}"
         records = [json.loads(x) for x in db.lrange(records_key, 0, -1)]
         records.sort(key=lambda x: x["timestamp"])
         for i, record in enumerate(records):

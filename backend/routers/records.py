@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from db import db
 
 router = APIRouter(
-    prefix="/{room_name}/records",
+    prefix="/room/{room}/records",
     tags=["records"],
 )
 

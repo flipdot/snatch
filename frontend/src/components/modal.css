@@ -45,7 +45,6 @@ button.closeModal::before {
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
-    gap: 1rem;
 }
 
 #copy-button-container > * {
