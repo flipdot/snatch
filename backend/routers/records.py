@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from db import db
+from settings import DEFAULT_DB_TTL
 
 router = APIRouter(
     prefix="/room/{room}/records",
@@ -45,7 +46,6 @@ def add_record(room_name: str, record: NewRecord) -> str:
             }
         ),
     )
-    # Automatically delete records after 3 days.
-    db.expire(records_key, 60 * 60 * 24 * 3)
-    db.expire(plates_key, 60 * 60 * 24 * 3)
+    db.expire(records_key, DEFAULT_DB_TTL)
+    db.expire(plates_key, DEFAULT_DB_TTL)
     return timestamp

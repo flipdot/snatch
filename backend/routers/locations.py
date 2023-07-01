@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from db import db
+from settings import DEFAULT_DB_TTL
 
 router = APIRouter(
     prefix="/room/{room}/locations",
@@ -18,6 +19,7 @@ def create_location(room: str, location: str) -> list[str]:
     if ":" in location:
         raise HTTPException(status_code=400, detail="Location cannot contain ':'")
     db.sadd(f"room:{room}:locations", location)
+    db.expire(f"room:{room}:locations", DEFAULT_DB_TTL)
     return list_locations(room)
 
 
