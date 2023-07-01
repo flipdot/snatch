@@ -12,9 +12,13 @@ export default function ShareRoomButton({ roomName }: { roomName: string }) {
 
 	return (
 		<>
-			<button onClick={() => setModalIsOpen(true)} type="button" style={{
-				marginTop: "1rem",
-			}}>
+			<button
+				onClick={() => setModalIsOpen(true)}
+				type="button"
+				style={{
+					marginTop: "1rem",
+				}}
+			>
 				Share room ”{roomName}”
 			</button>
 			<Modal

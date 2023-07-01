@@ -49,7 +49,7 @@ export default function LocationSelector({
 			<form
 				onSubmit={(event) => {
 					event.preventDefault();
-					onAddLocation(newLocation)
+					onAddLocation(newLocation);
 					// TODO: if onAddLocation is successful, clear the input
 					// 	setNewLocation("");
 				}}
