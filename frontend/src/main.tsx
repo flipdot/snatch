@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import JoinRoom from "./pages/JoinRoom";
 import Room from "./pages/Room";
 import NavBar from "./components/NavBar";
+import Modal from "react-modal";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
@@ -21,3 +22,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 		</BrowserRouter>
 	</React.StrictMode>,
 );
+
+Modal.setAppElement("#root");
