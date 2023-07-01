@@ -1,8 +1,7 @@
 import os
 
-REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
-REDIS_HOST = REDIS_URL.split(":")[1].replace("/", "")
-REDIS_PORT = REDIS_URL.split(":")[2]
+REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
 CORS_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
