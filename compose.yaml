@@ -6,7 +6,7 @@ services:
     volumes:
       - .:/code
     environment:
-      - REDIS_URL=redis://db:6379
+      - REDIS_HOST=db
     depends_on:
       - db
   frontend:
