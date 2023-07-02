@@ -5,18 +5,25 @@ function LocationEntry({
 	location,
 	isSelected,
 	onSelectLocation,
+	onDeleteLocation,
 }: {
 	location: string;
 	isSelected: boolean;
 	onSelectLocation: (location: string) => void;
+	onDeleteLocation: (location: string) => void;
 }) {
 	return (
-		<li
-			className={isSelected ? "selected" : ""}
-			onClick={() => onSelectLocation(location)}
-			onKeyDown={() => onSelectLocation(location)}
-		>
-			{location}
+		<li className={isSelected ? "selected" : ""}>
+			<button type="button" onClick={() => onSelectLocation(location)}>
+				{location}
+			</button>
+			<button
+				type="button"
+				className="delete"
+				onClick={() => onDeleteLocation(location)}
+			>
+				X
+			</button>
 		</li>
 	);
 }
@@ -26,11 +33,13 @@ export default function LocationSelector({
 	selectedLocation,
 	onSelectLocation,
 	onAddLocation,
+	onDeleteLocation,
 }: {
 	locations: string[];
 	selectedLocation: string | null;
 	onSelectLocation: (location: string) => void;
 	onAddLocation: (location: string) => void;
+	onDeleteLocation: (location: string) => void;
 }) {
 	const [newLocation, setNewLocation] = useState("");
 
@@ -43,6 +52,7 @@ export default function LocationSelector({
 						location={location}
 						isSelected={location === selectedLocation}
 						onSelectLocation={onSelectLocation}
+						onDeleteLocation={onDeleteLocation}
 					/>
 				))}
 			</ul>

@@ -13,9 +13,27 @@ async function addLocation(
 		`${import.meta.env.VITE_API_URL}/room/${roomName}/locations/${location}`,
 		{
 			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
+			signal: AbortSignal.timeout(5000),
+		},
+	);
+	if (!response.ok) {
+		if (response.status >= 400 && response.status < 500) {
+			const error = await response.json();
+			throw new Error(error.detail);
+		}
+		throw new Error(response.statusText);
+	}
+	return await response.json();
+}
+
+async function deleteLocation(
+	roomName: string,
+	location: string,
+): Promise<string[]> {
+	const response = await fetch(
+		`${import.meta.env.VITE_API_URL}/room/${roomName}/locations/${location}`,
+		{
+			method: "DELETE",
 			signal: AbortSignal.timeout(5000),
 		},
 	);
@@ -77,6 +95,21 @@ export default function Room() {
 						},
 						error: (error) => {
 							return `Failed to add location: ${error.message}`;
+						},
+					});
+				}}
+				onDeleteLocation={async (location) => {
+					toast.promise(deleteLocation(roomName, location), {
+						loading: "Deleting location...",
+						success: (data) => {
+							setLocations(data);
+							if (selectedLocation === location) {
+								setSelectedLocation(null);
+							}
+							return `Location "${location}" deleted`;
+						},
+						error: (error) => {
+							return `Failed to delete location: ${error.message}`;
 						},
 					});
 				}}

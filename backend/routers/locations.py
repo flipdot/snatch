@@ -25,11 +25,10 @@ def create_location(room: str, location: str) -> list[str]:
 
 @router.delete(
     "/{location}",
-    status_code=204,
     responses={404: {"description": "Location not found"}},
 )
-def delete_location(room: str, location: str) -> None:
+def delete_location(room: str, location: str) -> list[str]:
     if ":" in location:
         raise HTTPException(status_code=400, detail="Location cannot contain ':'")
-    if db.srem(f"room:{room}:locations", location) == 0:
-        raise HTTPException(status_code=404, detail="Location not found")
+    db.srem(f"room:{room}:locations", location)
+    return list_locations(room)
