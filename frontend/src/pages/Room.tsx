@@ -78,6 +78,34 @@ export default function Room() {
 			});
 	}, []);
 
+	async function onAddLocation(location: string) {
+		toast.promise(addLocation(roomName || "", location), {
+			loading: "Adding location...",
+			success: (data) => {
+				setLocations(data);
+				setSelectedLocation(location);
+				return `Location "${location}" added`;
+			},
+			error: (error) => {
+				return `Failed to add location: ${error.message}`;
+			},
+		});
+	}
+	async function onDeleteLocation(location: string) {
+		toast.promise(deleteLocation(roomName || "", location), {
+			loading: "Deleting location...",
+			success: (data) => {
+				setLocations(data);
+				if (selectedLocation === location) {
+					setSelectedLocation(null);
+				}
+				return `Location "${location}" deleted`;
+			},
+			error: (error) => {
+				return `Failed to delete location: ${error.message}`;
+			},
+		});
+	}
 	return (
 		<>
 			<h2>Where are you snatching?</h2>
@@ -85,34 +113,8 @@ export default function Room() {
 				locations={locations}
 				selectedLocation={selectedLocation}
 				onSelectLocation={setSelectedLocation}
-				onAddLocation={async (location) => {
-					toast.promise(addLocation(roomName, location), {
-						loading: "Adding location...",
-						success: (data) => {
-							setLocations(data);
-							setSelectedLocation(location);
-							return `Location "${location}" added`;
-						},
-						error: (error) => {
-							return `Failed to add location: ${error.message}`;
-						},
-					});
-				}}
-				onDeleteLocation={async (location) => {
-					toast.promise(deleteLocation(roomName, location), {
-						loading: "Deleting location...",
-						success: (data) => {
-							setLocations(data);
-							if (selectedLocation === location) {
-								setSelectedLocation(null);
-							}
-							return `Location "${location}" deleted`;
-						},
-						error: (error) => {
-							return `Failed to delete location: ${error.message}`;
-						},
-					});
-				}}
+				onAddLocation={onAddLocation}
+				onDeleteLocation={onDeleteLocation}
 			/>
 			<ShareRoomButton roomName={roomName} />
 		</>
