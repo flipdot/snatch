@@ -19,7 +19,7 @@ function LocationEntry({
 			</button>
 			<button
 				type="button"
-				className="delete"
+				className="action"
 				onClick={() => onDeleteLocation(location)}
 			>
 				X
@@ -44,8 +44,8 @@ export default function LocationSelector({
 	const [newLocation, setNewLocation] = useState("");
 
 	return (
-		<>
-			<ul className="location-selector">
+		<span className="location-selector">
+			<ul>
 				{locations.map((location) => (
 					<LocationEntry
 						key={location}
@@ -59,10 +59,11 @@ export default function LocationSelector({
 			<form
 				onSubmit={(event) => {
 					event.preventDefault();
-					onAddLocation(newLocation);
+					onAddLocation(newLocation.trim());
 					// TODO: if onAddLocation is successful, clear the input
 					// 	setNewLocation("");
 				}}
+				style={{ display: "flex" }}
 			>
 				<input
 					type="text"
@@ -73,10 +74,10 @@ export default function LocationSelector({
 					}}
 					onSubmit={() => console.log("yo")}
 				/>
-				<button type="submit" disabled={!newLocation}>
-					Add
+				<button type="submit" className="action" disabled={!newLocation}>
+					+
 				</button>
 			</form>
-		</>
+		</span>
 	);
 }

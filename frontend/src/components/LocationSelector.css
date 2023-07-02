@@ -1,51 +1,54 @@
-ul.location-selector {
+.location-selector > ul {
     padding: 0;
 }
 
-ul.location-selector > li {
-    margin: 0.5em 0.5em;
+.location-selector {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.location-selector > ul > li {
+    margin: 0.5em 0;
     /*border-radius: 8px;*/
     /*border: 1px solid #a6a6a6;*/
     /*padding: 0.3em 0.6em;*/
     display: flex;
     list-style: none;
-    font-size: 1.2em;
-    font-weight: bold;
     /*background: #1a1a1a;*/
     /*cursor: pointer;*/
     transition: all 150ms ease-in-out;
     /*-webkit-tap-highlight-color: transparent;*/
 }
 
-ul.location-selector > li.selected:hover {
+.location-selector > ul > li.selected:hover {
     border-color: #a6a6a6;
 }
 
-ul.location-selector > li > button {
+.location-selector > ul > li > button {
     flex: 1;
 }
 
-ul.location-selector > li > button + button {
+.location-selector > ul > li > button + button {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
 
-ul.location-selector > li > button:first-child {
+.location-selector > ul > li > button:first-child {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-ul.location-selector > li.selected > button {
+.location-selector > ul > li.selected > button {
     background: var(--primary-color);
     color: #1a1a1a;
 }
 
-ul.location-selector > li > button.delete {
+.location-selector button.action {
     flex: 0 0 2rem;
 }
 
 @media (prefers-color-scheme: light) {
-    ul.location-selector > li {
+    .location-selector > ul > li {
         background: #f9f9f9;
     }
 }
