@@ -37,6 +37,17 @@ export default function Room() {
 	const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
 	useEffect(() => {
+		if (selectedLocation) {
+			window.location.hash = `#${selectedLocation}`;
+		} else if (
+			window.location.hash &&
+			locations.includes(window.location.hash.slice(1))
+		) {
+			setSelectedLocation(window.location.hash.slice(1));
+		}
+	}, [selectedLocation, locations]);
+
+	useEffect(() => {
 		fetch(`${import.meta.env.VITE_API_URL}/room/${roomName}/locations`, {
 			signal: AbortSignal.timeout(5000),
 		})
