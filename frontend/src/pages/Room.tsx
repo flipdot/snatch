@@ -4,6 +4,7 @@ import ShareRoomButton from "../components/ShareRoomButton";
 import { useEffect, useState } from "react";
 import LocationSelector from "../components/LocationSelector";
 import toast from "react-hot-toast";
+import LicensePlateInput from "../components/LicensePlateInput";
 
 async function addLocation(
 	roomName: string,
@@ -106,6 +107,11 @@ export default function Room() {
 			},
 		});
 	}
+
+	async function onSubmitLicensePlate(licensePlate: string) {
+		console.log(`Submitting license plate ${licensePlate}`);
+	}
+
 	return (
 		<>
 			<h2>Where are you snatching?</h2>
@@ -116,6 +122,8 @@ export default function Room() {
 				onAddLocation={onAddLocation}
 				onDeleteLocation={onDeleteLocation}
 			/>
+			<p>Start snatching</p>
+			<LicensePlateInput onSubmit={onSubmitLicensePlate} />
 			<ShareRoomButton roomName={roomName} />
 		</>
 	);

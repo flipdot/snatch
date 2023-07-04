@@ -69,6 +69,7 @@ export default function LocationSelector({
 					type="text"
 					placeholder="Add location"
 					value={newLocation}
+					style={{ flex: "1 1 auto" }}
 					onChange={(event) => {
 						setNewLocation(event.target.value);
 					}}

@@ -77,6 +77,15 @@ button:disabled {
     width: 9rem;
 }
 
+#content {
+    /*flex: 1;*/
+    padding: 1rem;
+    /*max-width: 100%;*/
+    /*width: 100%;*/
+    box-sizing: border-box;
+    /*overflow-x: hidden;*/
+}
+
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
