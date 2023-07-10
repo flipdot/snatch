@@ -9,12 +9,15 @@ function LocationEntry({
 }: {
 	location: string;
 	isSelected: boolean;
-	onSelectLocation: (location: string) => void;
+	onSelectLocation: (location: null | string) => void;
 	onDeleteLocation: (location: string) => void;
 }) {
 	return (
 		<li className={isSelected ? "selected" : ""}>
-			<button type="button" onClick={() => onSelectLocation(location)}>
+			<button
+				type="button"
+				onClick={() => onSelectLocation(isSelected ? null : location)}
+			>
 				{location}
 			</button>
 			<button
@@ -37,7 +40,7 @@ export default function LocationSelector({
 }: {
 	locations: string[];
 	selectedLocation: string | null;
-	onSelectLocation: (location: string) => void;
+	onSelectLocation: (location: null | string) => void;
 	onAddLocation: (location: string) => void;
 	onDeleteLocation: (location: string) => void;
 }) {

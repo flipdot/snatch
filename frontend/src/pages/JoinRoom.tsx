@@ -31,7 +31,7 @@ function JoinRoom() {
 				>
 					<input
 						value={roomId}
-						onChange={(event) => setRoomId(event.target.value)}
+						onChange={(event) => setRoomId(event.target.value.toLowerCase())}
 						type="text"
 						placeholder="Room name"
 						// rome-ignore lint/a11y/noAutofocus: Only one input field, no text before it that the user might want to read

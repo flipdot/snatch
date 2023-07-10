@@ -118,12 +118,18 @@ export default function Room() {
 			<LocationSelector
 				locations={locations}
 				selectedLocation={selectedLocation}
-				onSelectLocation={setSelectedLocation}
+				onSelectLocation={(location) => {
+					if (location === null) {
+						window.location.hash = "";
+					}
+					setSelectedLocation(location);
+				}}
 				onAddLocation={onAddLocation}
 				onDeleteLocation={onDeleteLocation}
 			/>
-			<p>Start snatching</p>
-			<LicensePlateInput onSubmit={onSubmitLicensePlate} />
+			{selectedLocation ? (
+				<LicensePlateInput onSubmit={onSubmitLicensePlate} />
+			) : null}
 			<ShareRoomButton roomName={roomName} />
 		</>
 	);
