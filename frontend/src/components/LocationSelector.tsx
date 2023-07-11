@@ -1,5 +1,4 @@
 import "./LocationSelector.css";
-import { useState } from "react";
 
 function LocationEntry({
 	location,
@@ -37,15 +36,17 @@ export default function LocationSelector({
 	onSelectLocation,
 	onAddLocation,
 	onDeleteLocation,
+	newLocation,
+	setNewLocation,
 }: {
 	locations: string[];
 	selectedLocation: string | null;
 	onSelectLocation: (location: null | string) => void;
 	onAddLocation: (location: string) => void;
 	onDeleteLocation: (location: string) => void;
+	newLocation: string;
+	setNewLocation: (newLocation: string) => void;
 }) {
-	const [newLocation, setNewLocation] = useState("");
-
 	return (
 		<span className="location-selector">
 			<ul>

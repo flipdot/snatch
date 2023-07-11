@@ -47,6 +47,36 @@ async function deleteLocation(
 	}
 	return await response.json();
 }
+
+async function submitLicensePlate(
+	roomName: string,
+	location: string,
+	licensePlate: string,
+): Promise<string> {
+	const response = await fetch(
+		`${import.meta.env.VITE_API_URL}/room/${roomName}/records/`,
+		{
+			method: "POST",
+			signal: AbortSignal.timeout(5000),
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				location: location,
+				plate: licensePlate,
+			}),
+		},
+	);
+	if (!response.ok) {
+		if (response.status >= 400 && response.status < 500) {
+			const error = await response.json();
+			throw new Error(JSON.stringify(error.detail));
+		}
+		throw new Error(response.statusText);
+	}
+	return await response.json();
+}
+
 export default function Room() {
 	const { roomName } = useParams();
 	if (!roomName) {
@@ -54,6 +84,10 @@ export default function Room() {
 	}
 	const [locations, setLocations] = useState<string[]>([]);
 	const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+	const [licensePlateDistrict, setLicensePlateDistrict] = useState("");
+	const [licensePlateId, setLicensePlateId] = useState("");
+	const [licensePlateExtraClass, setLicensePlateExtraClass] = useState("");
+	const [newLocation, setNewLocation] = useState("");
 
 	useEffect(() => {
 		if (selectedLocation) {
@@ -85,6 +119,7 @@ export default function Room() {
 			success: (data) => {
 				setLocations(data);
 				setSelectedLocation(location);
+				setNewLocation("");
 				return `Location "${location}" added`;
 			},
 			error: (error) => {
@@ -110,6 +145,28 @@ export default function Room() {
 
 	async function onSubmitLicensePlate(licensePlate: string) {
 		console.log(`Submitting license plate ${licensePlate}`);
+		setLicensePlateExtraClass("loading");
+		toast.promise(
+			submitLicensePlate(roomName || "", selectedLocation || "", licensePlate),
+			{
+				loading: "Submitting...",
+				success: (timestamp) => {
+					const date = new Date(timestamp);
+					const hours = date.getHours().toString().padStart(2, "0");
+					const minutes = date.getMinutes().toString().padStart(2, "0");
+					const seconds = date.getSeconds().toString().padStart(2, "0");
+					const formattedDate = `${hours}:${minutes}:${seconds}`;
+					setLicensePlateDistrict("");
+					setLicensePlateId("");
+					setLicensePlateExtraClass("");
+					document.getElementById("license-plate-district")?.focus();
+					return `"${licensePlate}" @${formattedDate} saved!`;
+				},
+				error: (error) => {
+					return `Failed to submit: ${error.message}`;
+				},
+			},
+		);
 	}
 
 	return (
@@ -126,9 +183,18 @@ export default function Room() {
 				}}
 				onAddLocation={onAddLocation}
 				onDeleteLocation={onDeleteLocation}
+				newLocation={newLocation}
+				setNewLocation={setNewLocation}
 			/>
 			{selectedLocation ? (
-				<LicensePlateInput onSubmit={onSubmitLicensePlate} />
+				<LicensePlateInput
+					onSubmit={onSubmitLicensePlate}
+					licensePlateDistrict={licensePlateDistrict}
+					setLicensePlateDistrict={setLicensePlateDistrict}
+					licensePlateId={licensePlateId}
+					setLicensePlateId={setLicensePlateId}
+					className={licensePlateExtraClass}
+				/>
 			) : null}
 			<ShareRoomButton roomName={roomName} />
 		</>

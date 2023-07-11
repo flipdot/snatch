@@ -23,18 +23,18 @@ class NewRecord(BaseModel):
     "/",
     responses={404: {"description": "Location not found"}},
 )
-def add_record(room_name: str, record: NewRecord) -> str:
-    if not db.sismember(f"room:{room_name}:locations", record.location):
+def add_record(room: str, record: NewRecord) -> str:
+    if not db.sismember(f"room:{room}:locations", record.location):
         raise HTTPException(status_code=404, detail="Location not found")
     timestamp = datetime.now().isoformat()
     sanitized_plate = record.plate.replace(" ", "").upper()
     # Salt the plate number with the room name.
     # This way, data from different rooms will not be comparable, increasing privacy.
     plate_hash = sha256(
-        f"{room_name}:{sanitized_plate}".encode(),
+        f"{room}:{sanitized_plate}".encode(),
     ).hexdigest()
-    plates_key = f"room:{room_name}:plates"
-    records_key = f"room:{room_name}:records:{plate_hash}"
+    plates_key = f"room:{room}:plates"
+    records_key = f"room:{room}:records:{plate_hash}"
 
     db.sadd(plates_key, plate_hash)
     db.lpush(

@@ -4,11 +4,19 @@ import toast from "react-hot-toast";
 
 export default function LicensePlateInput({
 	onSubmit,
+	licensePlateDistrict,
+	setLicensePlateDistrict,
+	licensePlateId,
+	setLicensePlateId,
+	className,
 }: {
 	onSubmit: (licensePlate: string) => void;
+	licensePlateDistrict: string;
+	setLicensePlateDistrict: (licensePlateDistrict: string) => void;
+	licensePlateId: string;
+	setLicensePlateId: (licensePlateId: string) => void;
+	className: string;
 }) {
-	const [licensePlateDistrict, setLicensePlateDistrict] = useState("");
-	const [licensePlateId, setLicensePlateId] = useState("");
 	const [licensePlateError, setLicensePlateError] = useState(false);
 
 	return (
@@ -25,11 +33,16 @@ export default function LicensePlateInput({
 				}
 			}}
 		>
-			<div className={`${licensePlateError ? "error" : ""} license-plate`}>
+			<div
+				className={`${
+					licensePlateError ? "error" : ""
+				} license-plate ${className}`}
+			>
 				<input
 					id="license-plate-district"
 					type="text"
 					value={licensePlateDistrict}
+					autoComplete="off"
 					onChange={(event) => {
 						let value = event.target.value;
 						// if value contains non-alphabetic characters, remove them
@@ -47,6 +60,7 @@ export default function LicensePlateInput({
 					id="license-plate-id"
 					type="text"
 					value={licensePlateId}
+					autoComplete="off"
 					onChange={(event) => {
 						const value = event.target.value.replace(/[^0-9A-ZÄÖÜ]/gi, "");
 						setLicensePlateId(value);
