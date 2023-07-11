@@ -145,6 +145,9 @@ export default function Room() {
 
 	async function onSubmitLicensePlate(licensePlate: string) {
 		console.log(`Submitting license plate ${licensePlate}`);
+		if (licensePlateExtraClass === "loading") {
+			return;
+		}
 		setLicensePlateExtraClass("loading");
 		toast.promise(
 			submitLicensePlate(roomName || "", selectedLocation || "", licensePlate),
