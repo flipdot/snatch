@@ -29,7 +29,7 @@ function Section({ evaluation }: { evaluation: EvaluationItem }) {
 	return (
 		<div>
 			<h3>
-				{evaluation.from_location} -&gt; {evaluation.to_location}
+				{evaluation.from_location} &lt;-&gt; {evaluation.to_location}
 			</h3>
 			<ul>
 				<li>Mean duration: {evaluation.mean}s</li>

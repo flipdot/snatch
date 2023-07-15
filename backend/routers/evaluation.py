@@ -80,7 +80,7 @@ def get_evaluation(room: str) -> list[Analysis]:
             prev_record = records[i - 1]
             timestamp = datetime.fromisoformat(record["timestamp"])
             prev_timestamp = datetime.fromisoformat(prev_record["timestamp"])
-            key = f'{prev_record["location"]}:{record["location"]}'
+            key = ":".join(sorted((prev_record["location"], record["location"])))
             if key not in durations_per_segment:
                 durations_per_segment[key] = []
             durations_per_segment[key].append(
