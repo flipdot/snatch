@@ -9,6 +9,7 @@ import Room from "./pages/Room";
 import NavBar from "./components/NavBar";
 import Modal from "react-modal";
 import { Toaster } from "react-hot-toast";
+import Evaluation from "./pages/Evaluation";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 					<Route path="" element={<Index />} />
 					<Route path="/join" element={<JoinRoom />} />
 					<Route path="room/:roomName" element={<Room />} />
+					<Route path="room/:roomName/evaluation" element={<Evaluation />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

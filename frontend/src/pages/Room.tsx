@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../components/modal.css";
 import ShareRoomButton from "../components/ShareRoomButton";
 import { useEffect, useState } from "react";
@@ -82,6 +82,7 @@ export default function Room() {
 	if (!roomName) {
 		return <h1>Room name is missing</h1>;
 	}
+	const navigate = useNavigate();
 	const [locations, setLocations] = useState<string[]>([]);
 	const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 	const [licensePlateDistrict, setLicensePlateDistrict] = useState("");
@@ -101,7 +102,7 @@ export default function Room() {
 	}, [selectedLocation, locations]);
 
 	useEffect(() => {
-		fetch(`${import.meta.env.VITE_API_URL}/room/${roomName}/locations`, {
+		fetch(`${import.meta.env.VITE_API_URL}/room/${roomName}/locations/`, {
 			signal: AbortSignal.timeout(5000),
 		})
 			.then((response) => response.json())
@@ -109,6 +110,11 @@ export default function Room() {
 				setLocations(data);
 			})
 			.catch((error) => {
+				toast.error(
+					`Failed to fetch locations from ${import.meta.env.VITE_API_URL}: ${
+						error.message
+					}`,
+				);
 				console.error(error);
 			});
 	}, []);
@@ -144,7 +150,6 @@ export default function Room() {
 	}
 
 	async function onSubmitLicensePlate(licensePlate: string) {
-		console.log(`Submitting license plate ${licensePlate}`);
 		if (licensePlateExtraClass === "loading") {
 			return;
 		}
@@ -199,7 +204,15 @@ export default function Room() {
 					className={licensePlateExtraClass}
 				/>
 			) : null}
-			<ShareRoomButton roomName={roomName} />
+			<div className="button-bar">
+				<button
+					type="button"
+					onClick={() => navigate(`/room/${roomName}/evaluation`)}
+				>
+					Evaluation
+				</button>
+				<ShareRoomButton roomName={roomName} />
+			</div>
 		</>
 	);
 }
