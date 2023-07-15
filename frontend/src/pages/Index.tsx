@@ -7,7 +7,7 @@ function Index() {
 
 	return (
 		<>
-			<h1>SNATCH</h1>
+			<img alt="SNATCH" src="/word-logo.svg" width="300rem" />
 			<div className="button-bar">
 				<button
 					onClick={() => {
