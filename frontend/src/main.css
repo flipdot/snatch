@@ -77,6 +77,16 @@ button:disabled {
     width: 9rem;
 }
 
+p.loading {
+    color: #a6a6a6;
+    font-style: italic;
+}
+
+p.error {
+    font-weight: bold;
+    color: #cc0000;
+}
+
 #content {
     /*flex: 1;*/
     padding: 1rem;

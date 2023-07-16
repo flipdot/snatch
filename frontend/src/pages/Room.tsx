@@ -83,25 +83,16 @@ export default function Room() {
 		return <h1>Room name is missing</h1>;
 	}
 	const navigate = useNavigate();
-	const [locations, setLocations] = useState<string[]>([]);
+	const [locations, setLocations] = useState<string[] | null>(null);
+	const [locationLoadingFailedMessage, setLocationLoadingFailedMessage] =
+		useState<string | null>(null);
 	const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 	const [licensePlateDistrict, setLicensePlateDistrict] = useState("");
 	const [licensePlateId, setLicensePlateId] = useState("");
 	const [licensePlateExtraClass, setLicensePlateExtraClass] = useState("");
 	const [newLocation, setNewLocation] = useState("");
 
-	useEffect(() => {
-		if (selectedLocation) {
-			window.location.hash = `#${selectedLocation}`;
-		} else if (
-			window.location.hash &&
-			locations.includes(window.location.hash.slice(1))
-		) {
-			setSelectedLocation(window.location.hash.slice(1));
-		}
-	}, [selectedLocation, locations]);
-
-	useEffect(() => {
+	function loadLocations() {
 		fetch(`${import.meta.env.VITE_API_URL}/room/${roomName}/locations/`, {
 			signal: AbortSignal.timeout(5000),
 		})
@@ -110,14 +101,24 @@ export default function Room() {
 				setLocations(data);
 			})
 			.catch((error) => {
-				toast.error(
-					`Failed to fetch locations from ${import.meta.env.VITE_API_URL}: ${
-						error.message
-					}`,
-				);
+				setLocationLoadingFailedMessage(error.message);
 				console.error(error);
 			});
-	}, []);
+	}
+
+	useEffect(() => {
+		if (selectedLocation) {
+			window.location.hash = `#${selectedLocation}`;
+		} else if (
+			window.location.hash &&
+			locations &&
+			locations.includes(window.location.hash.slice(1))
+		) {
+			setSelectedLocation(window.location.hash.slice(1));
+		}
+	}, [selectedLocation, locations]);
+
+	useEffect(loadLocations, []);
 
 	async function onAddLocation(location: string) {
 		toast.promise(addLocation(roomName || "", location), {
@@ -180,20 +181,30 @@ export default function Room() {
 	return (
 		<>
 			<h2>Where are you snatching?</h2>
-			<LocationSelector
-				locations={locations}
-				selectedLocation={selectedLocation}
-				onSelectLocation={(location) => {
-					if (location === null) {
-						window.location.hash = "";
-					}
-					setSelectedLocation(location);
-				}}
-				onAddLocation={onAddLocation}
-				onDeleteLocation={onDeleteLocation}
-				newLocation={newLocation}
-				setNewLocation={setNewLocation}
-			/>
+			{locations === null ? (
+				locationLoadingFailedMessage ? (
+					<p className="error">
+						Failed to load locations: {locationLoadingFailedMessage}
+					</p>
+				) : (
+					<p className="loading">Loading locations…</p>
+				)
+			) : (
+				<LocationSelector
+					locations={locations}
+					selectedLocation={selectedLocation}
+					onSelectLocation={(location) => {
+						if (location === null) {
+							window.location.hash = "";
+						}
+						setSelectedLocation(location);
+					}}
+					onAddLocation={onAddLocation}
+					onDeleteLocation={onDeleteLocation}
+					newLocation={newLocation}
+					setNewLocation={setNewLocation}
+				/>
+			)}
 			{selectedLocation ? (
 				<LicensePlateInput
 					onSubmit={onSubmitLicensePlate}

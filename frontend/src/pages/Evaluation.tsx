@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 interface HistogramEntry {
 	duration: number;
@@ -68,8 +67,11 @@ export default function Evaluation() {
 	const { roomName } = useParams();
 	const navigate = useNavigate();
 	const [evaluationCollection, setEvaluationCollection] = useState<
-		EvaluationItem[]
-	>([]);
+		EvaluationItem[] | null
+	>(null);
+	const [loadingFailedMessage, setLoadingFailedMessage] = useState<
+		string | null
+	>(null);
 
 	useEffect(() => {
 		fetch(`${import.meta.env.VITE_API_URL}/room/${roomName}/evaluation/`, {
@@ -80,11 +82,7 @@ export default function Evaluation() {
 				setEvaluationCollection(data);
 			})
 			.catch((error) => {
-				toast.error(
-					`Failed to fetch evaluation from ${import.meta.env.VITE_API_URL}: ${
-						error.message
-					}`,
-				);
+				setLoadingFailedMessage(error.message);
 				console.error(error);
 			});
 	}, []);
@@ -92,12 +90,20 @@ export default function Evaluation() {
 	return (
 		<>
 			<h1>Evaluation</h1>
-			{evaluationCollection.map((evaluation) => (
-				<Section
-					key={evaluation.from_location + evaluation.to_location}
-					evaluation={evaluation}
-				/>
-			))}
+			{evaluationCollection === null ? (
+				loadingFailedMessage ? (
+					<p className="error">{loadingFailedMessage}</p>
+				) : (
+					<p className="loading">Loading histogram…</p>
+				)
+			) : (
+				evaluationCollection.map((evaluation) => (
+					<Section
+						key={evaluation.from_location + evaluation.to_location}
+						evaluation={evaluation}
+					/>
+				))
+			)}
 			<button type="button" onClick={() => navigate(`/room/${roomName}`)}>
 				Back
 			</button>
