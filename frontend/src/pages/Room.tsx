@@ -172,6 +172,7 @@ export default function Room() {
 					return `"${licensePlate}" @${formattedDate} saved!`;
 				},
 				error: (error) => {
+					setLicensePlateExtraClass("");
 					return `Failed to submit: ${error.message}`;
 				},
 			},
