@@ -1,5 +1,7 @@
 import json
+import math
 from datetime import datetime
+from typing import List
 
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -13,44 +15,16 @@ router = APIRouter(
 
 
 class HistogramEntry(BaseModel):
-    duration: int
+    min_duration: int
+    max_duration: int
     number_of_items: int
-
-
-class Histogram(BaseModel):
-    min: HistogramEntry
-    p25: HistogramEntry
-    p50: HistogramEntry
-    p75: HistogramEntry
-    p90: HistogramEntry
-    p95: HistogramEntry
-    p99: HistogramEntry
-    max: HistogramEntry
 
 
 class Analysis(BaseModel):
     from_location: str
     to_location: str
     mean: int
-    histogram: Histogram
-
-
-def get_percentile_from_field_name(field: Histogram.__fields__) -> float:
-    """
-    Returns a float between 0 and 1, based on the field name from the Histogram model.
-    """
-    assert len(field) == 3
-    match field.split("p"):
-        case ["min"]:
-            return 0
-        case ["max"]:
-            return 1
-        case [_, percentile_str]:
-            percentile = int(percentile_str) / 100
-            assert 0 < percentile < 1
-            return percentile
-        case _:
-            raise AssertionError(f"Unexpected field {field}")
+    histogram: List[HistogramEntry]
 
 
 def get_index_from_percentile(percentile: float, sorted_list: list[any]) -> int:
@@ -83,13 +57,15 @@ def get_evaluation(room: str) -> list[Analysis]:
             key = ":".join(sorted((prev_record["location"], record["location"])))
             if key not in durations_per_segment:
                 durations_per_segment[key] = []
-            durations_per_segment[key].append(
-                (timestamp - prev_timestamp).total_seconds()
-            )
+            durations_per_segment[key].append(round((timestamp - prev_timestamp).total_seconds()))
 
     # sort the durations for each segment
     for durations in durations_per_segment.values():
         durations.sort()
+
+    n_buckets = 16
+
+    percentile = 0.95
 
     # create a histogram
     return [
@@ -97,19 +73,14 @@ def get_evaluation(room: str) -> list[Analysis]:
             from_location=key.partition(":")[0],
             to_location=key.partition(":")[2],
             mean=sum(durations) / len(durations),
-            histogram=Histogram(
-                **{
-                    field: HistogramEntry(
-                        duration=durations[
-                            idx := get_index_from_percentile(
-                                get_percentile_from_field_name(field), durations
-                            )
-                        ],
-                        number_of_items=idx + 1,
-                    )
-                    for field in Histogram.__fields__
-                }
-            ),
+            histogram=[
+                HistogramEntry(
+                    min_duration=i,
+                    max_duration=i + (step := math.ceil(durations[get_index_from_percentile(percentile, durations)] / n_buckets)),
+                    number_of_items=sum((1 for x in durations if i <= x < i + step)),
+                )
+                for i in range(0, durations[get_index_from_percentile(percentile, durations)], math.ceil(durations[get_index_from_percentile(percentile, durations)] / n_buckets))
+            ]
         )
         for key, durations in durations_per_segment.items()
     ]

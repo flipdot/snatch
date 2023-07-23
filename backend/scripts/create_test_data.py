@@ -13,8 +13,8 @@ def main(room: str, location_list: list[str], n=500):
     for location in location_list:
         locations.create_location(room, location)
 
-    plate = f"KS-FD{random.randint(1, 1000)}"
     for _ in tqdm(range(n)):
+        plate = f"KS-FD{random.randint(1, 10000)}"
         random.shuffle(location_list)
         location_a, location_b = location_list[:2]
         timestamp_a = datetime(
@@ -39,5 +39,5 @@ def main(room: str, location_list: list[str], n=500):
 if __name__ == "__main__":
     main("fd", [
         "Werkstatt",
-        "Elektrotechnik"
+        "Elektroecke"
     ])
