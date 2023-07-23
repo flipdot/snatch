@@ -89,7 +89,7 @@ function Section({ evaluation }: { evaluation: EvaluationItem }) {
 	};
 
 	return (
-		<div style={{ width: "100%" }}>
+		<div style={{ width: "100%", marginBottom: "1rem" }}>
 			<HighchartsReact highcharts={Highcharts} options={chartOptions} />
 		</div>
 	);
