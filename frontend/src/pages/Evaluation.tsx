@@ -22,10 +22,14 @@ function Section({ evaluation }: { evaluation: EvaluationItem }) {
 		v.number_of_items,
 	]);
 	const cumulativeData: typeof data = [];
-	data.reduce((previousValue, currentValue) => {
-		cumulativeData.push(previousValue);
-		return [currentValue[0], currentValue[1] + previousValue[1]];
-	});
+	data.reduce(
+		(previousValue, currentValue) => {
+			const next = [currentValue[0], currentValue[1] + previousValue[1]];
+			cumulativeData.push(next);
+			return next;
+		},
+		[0, 0],
+	);
 	const chartOptions = {
 		title: {
 			text: `${evaluation.from_location} &lt;-&gt; ${evaluation.to_location}`,
@@ -64,7 +68,10 @@ function Section({ evaluation }: { evaluation: EvaluationItem }) {
 			},
 		],
 		tooltip: {
-			formatter: function () {
+			formatter(this: Highcharts.TooltipFormatterContextObject) {
+				if (this.x === undefined) {
+					return "";
+				}
 				const datestr = new Date(this.x).toISOString().substr(14, 5);
 				let label = `<b>${this.y} cars</b><br />in ${datestr}`;
 				if (this.series.name === "Number of cars (cumulative)") {
