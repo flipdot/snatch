@@ -27,6 +27,7 @@ function JoinRoom() {
 						display: "flex",
 						flexDirection: "row",
 						alignItems: "center",
+						justifyContent: "center",
 					}}
 				>
 					<input

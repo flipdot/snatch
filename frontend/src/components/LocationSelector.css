@@ -5,6 +5,8 @@
 .location-selector {
     font-size: 1.2em;
     font-weight: bold;
+    max-width: 30rem;
+    margin: auto;
 }
 
 .location-selector > ul > li {

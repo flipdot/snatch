@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import "../components/highcharts.css";
 
 interface HistogramEntry {
 	min_duration: number;
@@ -81,10 +82,13 @@ function Section({ evaluation }: { evaluation: EvaluationItem }) {
 			},
 		},
 		legend: false,
+		chart: {
+			styledMode: true,
+		},
 	};
 
 	return (
-		<div style={{ width: "50rem" }}>
+		<div style={{ width: "100%" }}>
 			<HighchartsReact highcharts={Highcharts} options={chartOptions} />
 		</div>
 	);

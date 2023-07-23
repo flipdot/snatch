@@ -48,7 +48,7 @@ export default function LocationSelector({
 	setNewLocation: (newLocation: string) => void;
 }) {
 	return (
-		<span className="location-selector">
+		<div className="location-selector">
 			<ul>
 				{locations.map((location) => (
 					<LocationEntry
@@ -83,6 +83,6 @@ export default function LocationSelector({
 					+
 				</button>
 			</form>
-		</span>
+		</div>
 	);
 }
