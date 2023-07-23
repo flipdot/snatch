@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import "../components/highcharts.css";
+import "./Evaluation.css";
 
 interface HistogramEntry {
 	min_duration: number;
@@ -103,24 +104,78 @@ export default function Evaluation() {
 	const [loadingFailedMessage, setLoadingFailedMessage] = useState<
 		string | null
 	>(null);
+	const [percentile, setPercentile] = useState(0.95);
+	const [buckets, setBuckets] = useState(16);
 
 	useEffect(() => {
-		fetch(`${import.meta.env.VITE_API_URL}/room/${roomName}/evaluation/`, {
-			signal: AbortSignal.timeout(5000),
-		})
-			.then((response) => response.json())
+		fetch(
+			`${
+				import.meta.env.VITE_API_URL
+			}/room/${roomName}/evaluation/?percentile=${percentile || 0.95}&buckets=${
+				buckets || 16
+			}`,
+			{
+				signal: AbortSignal.timeout(5000),
+			},
+		)
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error(
+						`HTTP error ${response.status}: ${response.statusText}`,
+					);
+				}
+				return response.json();
+			})
 			.then((data) => {
 				setEvaluationCollection(data);
 			})
 			.catch((error) => {
+				setEvaluationCollection(null);
 				setLoadingFailedMessage(error.message);
 				console.error(error);
 			});
-	}, []);
+	}, [percentile, buckets]);
 
 	return (
 		<>
 			<h1>Evaluation</h1>
+			<div className="evaluation-controls">
+				<label>Percentile:</label>
+				<button
+					type="button"
+					disabled={percentile <= 0.01}
+					onClick={() => setPercentile(percentile - 0.01)}
+				>
+					-
+				</button>
+				<span className="setting">{percentile.toFixed(2)}</span>
+				<button
+					type="button"
+					disabled={percentile >= 1}
+					onClick={() => setPercentile(percentile + 0.01)}
+				>
+					+
+				</button>
+			</div>
+			<div className="evaluation-controls">
+				<label>Max buckets:</label>
+				<button
+					type="button"
+					disabled={buckets <= 1}
+					onClick={() => setBuckets(buckets - 1)}
+				>
+					-
+				</button>
+				<span className="setting">{buckets}</span>
+				<button
+					type="button"
+					disabled={buckets >= 50}
+					onClick={() => setBuckets(buckets + 1)}
+				>
+					+
+				</button>
+			</div>
+
 			{evaluationCollection === null ? (
 				loadingFailedMessage ? (
 					<p className="error">{loadingFailedMessage}</p>

@@ -1,9 +1,9 @@
 import json
 import math
 from datetime import datetime
-from typing import List
+from typing import List, Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query, HTTPException
 from pydantic import BaseModel
 
 from db import db
@@ -12,6 +12,8 @@ router = APIRouter(
     prefix="/room/{room}/evaluation",
     tags=["evaluation"],
 )
+
+MAX_BUCKETS = 50
 
 
 class HistogramEntry(BaseModel):
@@ -38,7 +40,11 @@ def get_index_from_percentile(percentile: float, sorted_list: list[any]) -> int:
 
 
 @router.get("/")
-def get_evaluation(room: str) -> list[Analysis]:
+def get_evaluation(
+        room: str,
+        percentile: Annotated[float, Query()] = 0.95,
+        buckets: Annotated[int, Query()] = 16
+) -> list[Analysis]:
     """
     Returns a histogram of the average time spent between each pair of locations.
     """
@@ -63,9 +69,17 @@ def get_evaluation(room: str) -> list[Analysis]:
     for durations in durations_per_segment.values():
         durations.sort()
 
-    n_buckets = 16
+    if not 0 <= percentile <= 1:
+        raise HTTPException(
+            status_code=400,
+            detail="Percentile must be between 0 and 1."
+        )
 
-    percentile = 0.95
+    if not 0 < buckets <= MAX_BUCKETS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Buckets must be between 1 and {MAX_BUCKETS}."
+        )
 
     # create a histogram
     return [
@@ -76,10 +90,10 @@ def get_evaluation(room: str) -> list[Analysis]:
             histogram=[
                 HistogramEntry(
                     min_duration=i,
-                    max_duration=i + (step := math.ceil(durations[get_index_from_percentile(percentile, durations)] / n_buckets)),
+                    max_duration=i + (step := math.ceil(durations[get_index_from_percentile(percentile, durations)] / buckets)),
                     number_of_items=sum((1 for x in durations if i <= x < i + step)),
                 )
-                for i in range(0, durations[get_index_from_percentile(percentile, durations)], math.ceil(durations[get_index_from_percentile(percentile, durations)] / n_buckets))
+                for i in range(0, durations[get_index_from_percentile(percentile, durations)], math.ceil(durations[get_index_from_percentile(percentile, durations)] / buckets))
             ]
         )
         for key, durations in durations_per_segment.items()
