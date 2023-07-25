@@ -48,16 +48,20 @@ def get_evaluation(
     """
     Returns a histogram of the average time spent between each pair of locations.
     """
+
+    if not 0 <= percentile <= 1:
+        raise HTTPException(
+            status_code=400,
+            detail="Percentile must be between 0 and 1."
+        )
+
     plates = db.smembers(f"room:{room}:plates")
     durations_per_segment = {}
     for car_id, plate_hash in enumerate(plates):
         records_key = f"room:{room}:records:{plate_hash}"
         records = [json.loads(x) for x in db.lrange(records_key, 0, -1)]
         records.sort(key=lambda x: x["timestamp"])
-        for i, record in enumerate(records):
-            if i == 0:
-                continue
-            prev_record = records[i - 1]
+        for prev_record, record in zip(records, records[1:]):
             timestamp = datetime.fromisoformat(record["timestamp"])
             prev_timestamp = datetime.fromisoformat(prev_record["timestamp"])
             key = ":".join(sorted((prev_record["location"], record["location"])))
@@ -68,12 +72,6 @@ def get_evaluation(
     # sort the durations for each segment
     for durations in durations_per_segment.values():
         durations.sort()
-
-    if not 0 <= percentile <= 1:
-        raise HTTPException(
-            status_code=400,
-            detail="Percentile must be between 0 and 1."
-        )
 
     if not 0 < buckets <= MAX_BUCKETS:
         raise HTTPException(
