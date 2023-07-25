@@ -81,6 +81,9 @@ def get_evaluation(
             detail=f"Buckets must be between 1 and {MAX_BUCKETS}."
         )
 
+    def step_size(sorted_list: list[float]):
+        return math.ceil(sorted_list[get_index_from_percentile(percentile, sorted_list)] / buckets)
+
     # create a histogram
     return [
         Analysis(
@@ -90,10 +93,10 @@ def get_evaluation(
             histogram=[
                 HistogramEntry(
                     min_duration=i,
-                    max_duration=i + (step := math.ceil(durations[get_index_from_percentile(percentile, durations)] / buckets)),
-                    number_of_items=sum((1 for x in durations if i <= x < i + step)),
+                    max_duration=i + step_size(durations),
+                    number_of_items=sum((1 for x in durations if i <= x < i + step_size(durations))),
                 )
-                for i in range(0, durations[get_index_from_percentile(percentile, durations)], math.ceil(durations[get_index_from_percentile(percentile, durations)] / buckets))
+                for i in range(0, durations[get_index_from_percentile(percentile, durations)], step_size(durations))
             ]
         )
         for key, durations in durations_per_segment.items()
