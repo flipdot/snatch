@@ -13,7 +13,7 @@ jobs:
         working-directory: ./frontend
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v3
         with:
@@ -34,7 +34,7 @@ jobs:
         working-directory: ./backend
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -105,7 +105,7 @@ jobs:
       name: production
       url: https://snatch.flipdot.org
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.8.0
         with:
