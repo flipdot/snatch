@@ -28,8 +28,11 @@ services:
   caddy:
     image: caddy:2.7.5-alpine
     ports:
-      - "80:80"
-      - "443:443"
+      # For convenience, you can expose 80:80, 443:443.
+      # However, if we want to run multiple applications, we need to run a webserver binding to
+      # 80 and 443 on the host.
+      - "8000:80"
+#      - "443:443"
     volumes:
       - "./infrastructure/Caddyfile:/etc/caddy/Caddyfile"
       - "caddy-data:/data"
