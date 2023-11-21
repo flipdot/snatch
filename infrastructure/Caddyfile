@@ -1,4 +1,4 @@
-localhost, snatch.flipdot.org {
+:8000 {
   handle_path /static/* {
      root * /mnt/static
      file_server
