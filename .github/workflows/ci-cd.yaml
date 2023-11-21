@@ -116,3 +116,5 @@ jobs:
         run: scp -r compose.yaml infrastructure ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}:~/snatch/
       - name: Reload docker compose
         run: ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} 'cd ~/snatch && docker compose pull && docker compose up -d'
+      - name: Cleanup disk space
+        run: ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} 'docker system prune -fa'
