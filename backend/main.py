@@ -3,6 +3,12 @@ from starlette.middleware.cors import CORSMiddleware
 
 import settings
 from routers import locations, records, evaluation
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn=settings.SENTRY_DSN,
+    enable_tracing=False,
+)
 
 app = FastAPI()
 
@@ -18,6 +24,12 @@ app.add_middleware(
 app.include_router(locations.router)
 app.include_router(records.router)
 app.include_router(evaluation.router)
+
+
+@app.get("/error")
+def error():
+    raise Exception("Test error")
+
 
 if __name__ == "__main__":
     import uvicorn

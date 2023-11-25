@@ -6,6 +6,7 @@ services:
     volumes:
       - .:/code
     environment:
+      - SENTRY_DSN=${SENTRY_DSN}
       - REDIS_HOST=db
       # required to make SSL redirection work. IMHO not worth figuring out the real IP: https://stackoverflow.com/a/69369838/458274
       - FORWARDED_ALLOW_IPS=*
