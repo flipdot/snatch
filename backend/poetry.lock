@@ -61,6 +61,7 @@ files = [
     {file = "black-24.1.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:39addf23f7070dbc0b5518cdb2018468ac249d7412a669b50ccca18427dba1f3"},
     {file = "black-24.1.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:827a7c0da520dd2f8e6d7d3595f4591aa62ccccce95b16c0e94bb4066374c4c2"},
     {file = "black-24.1.0-cp312-cp312-win_amd64.whl", hash = "sha256:0cd59d01bf3306ff7e3076dd7f4435fcd2fafe5506a6111cae1138fc7de52382"},
+    {file = "black-24.1.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:bf8dd261ee82df1abfb591f97e174345ab7375a55019cc93ad38993b9ff5c6ad"},
     {file = "black-24.1.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:82d9452aeabd51d1c8f0d52d4d18e82b9f010ecb30fd55867b5ff95904f427ff"},
     {file = "black-24.1.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9aede09f72b2a466e673ee9fca96e4bccc36f463cac28a35ce741f0fd13aea8b"},
     {file = "black-24.1.0-cp38-cp38-win_amd64.whl", hash = "sha256:780f13d03066a7daf1707ec723fdb36bd698ffa29d95a2e7ef33a8dd8fe43b5c"},
@@ -517,20 +518,20 @@ typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
 name = "pytest"
-version = "7.4.4"
+version = "8.0.0"
 description = "pytest: simple powerful testing with Python"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "pytest-7.4.4-py3-none-any.whl", hash = "sha256:b090cdf5ed60bf4c45261be03239c2c1c22df034fbffe691abe93cd80cea01d8"},
-    {file = "pytest-7.4.4.tar.gz", hash = "sha256:2cf0005922c6ace4a3e2ec8b4080eb0d9753fdc93107415332f50ce9e7994280"},
+    {file = "pytest-8.0.0-py3-none-any.whl", hash = "sha256:50fb9cbe836c3f20f0dfa99c565201fb75dc54c8d76373cd1bde06b06657bdb6"},
+    {file = "pytest-8.0.0.tar.gz", hash = "sha256:249b1b0864530ba251b7438274c4d251c58d868edaaec8762893ad4a0d71c36c"},
 ]
 
 [package.dependencies]
 colorama = {version = "*", markers = "sys_platform == \"win32\""}
 iniconfig = "*"
 packaging = "*"
-pluggy = ">=0.12,<2.0"
+pluggy = ">=1.3.0,<2.0"
 
 [package.extras]
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
@@ -815,4 +816,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "f9d3559f2281c3cd831eb461a56c282c57759eddebaaa2e4769b17307e8ee0de"
+content-hash = "7bbab1b6942574e6067edf23f5d48b342e27b81dd0ded1489c44a2eb2344fb8e"
