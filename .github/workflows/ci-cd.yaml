@@ -94,7 +94,7 @@ jobs:
           echo "::set-output name=release::$(git describe --tags --dirty)"
 
       - name: Build ${{ matrix.component }} image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           context: ${{ matrix.component }}
