@@ -34,7 +34,7 @@
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@types/react-modal": "^3.16.0",
-    "@types/uuid": "^9.0.2",
+    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "husky": "^9.0.0",
     "rome": "^12.1.3",
