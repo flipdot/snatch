@@ -46,7 +46,7 @@ jobs:
           python-version: "3.11"
 
       - name: Setup Poetry
-        uses: abatilo/actions-poetry@v3.0.1
+        uses: abatilo/actions-poetry@v4.0.0
 
       - run: poetry install
       - run: poetry run pytest -m "not slow" -r fsx
