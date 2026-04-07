@@ -1,4 +1,7 @@
 name: CI/CD
+
+permissions: {}
+
 on:
   workflow_dispatch:
   push:
@@ -56,6 +59,8 @@ jobs:
     needs: [ build-frontend, build-backend ]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
+    permissions:
+      packages: write
 
     strategy:
       fail-fast: true
